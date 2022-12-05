@@ -1,20 +1,50 @@
-import axios from 'axios';
 import React, { Component } from 'react';
+import axios from 'axios';
 
 import PortfolioSidebarList from "../portfolio/port-side-bar-list"
 import PortfolioForm from '../portfolio/port-form';
+
 
 export default class PortfolioManager extends Component {
     constructor() {
         super();
 
         this.state = {
-            portfolioItems: []
+            portfolioItems: [],
+            portfolioToEdit: {}
         };
 
         this.handleSuccessfulFormSubmission = this.handleSuccessfulFormSubmission.bind(this);
         this.handleSuccessfulFormSubmissionError = this.handleSuccessfulFormSubmissionError.bind(this);
+        this.handleDeleteClick = this.handleDeleteClick.bind(this);
+        this.handleEditClick = this.handleEditClick.bind(this);
+    
     }
+
+    handleEditClick(portfolioItem) {
+        this.setState({
+            portfolioToEdit: portfolioItem
+        });
+    }
+
+    handleDeleteClick(portfolioItem) {
+        axios.delete(
+            `https://api.devcamp.space/portfolio/portfolio_items/${portfolioItem.id}`, 
+            { withCredentials: true }
+        ).then(response => {
+            this.setState({
+                portfolioItems: this.state.portfolioItems.filter(item => {
+                    return item.id !== portfolioItem.id;
+                })
+            });
+
+            return response.data;
+        }).catch(error => {
+            console.log("handleDeleteClick error", response);
+        });
+            
+    }
+
 
     handleSuccessfulFormSubmission(portfolioItem) {
         this.setState({
@@ -56,7 +86,10 @@ export default class PortfolioManager extends Component {
                     />
                 </div>
                 <div className="right-column">
-                    <PortfolioSidebarList data={this.state.portfolioItems} />
+                    <PortfolioSidebarList 
+                    handleDeleteClick={this.handleDeleteClick}
+                    handleEditClick={this.handleEditClick}
+                    data={this.state.portfolioItems} />
                 </div>
 
             </div>
