@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import BlogItem from "../blog/blog-item";
+import BlogModal from "../modals/blog-modal";
 
 class Blog extends Component {
     constructor() {
@@ -12,15 +13,38 @@ class Blog extends Component {
             blogItems: [],
             totalCount: 0,
             currentPage: 0,
-            isLoading: true
+            isLoading: true,
+            blogModalIsOpen: false
         };
 
         this.getBlogItems = this.getBlogItems.bind(this);
         this.onScroll = this.onScroll.bind(this); 
         window.addEventListener("scroll", this.onScroll, false);
+        this.handleNewBlogClick = this.handleNewBlogClick.bind(this);
+        this.handleModalClose = this.handleModalClose.bind(this);
+        this.handleSuccessfullNewBlogSubmission = this.handleSuccessfullNewBlogSubmission.bind(this);
     }
 
-    OnScroll() {
+    handleSuccessfullNewBlogSubmission(blog) {
+        this.setState({
+            blogModalIsOpen: false,
+            blogItems: [blog].concat(this.state.blogItems)
+        });    
+    }
+
+    handleModalClose() {
+        this.setState({
+            blogModalIsOpen: false
+        })
+    }
+
+    handleNewBlogClick() {
+        this.setState({
+            blogModalIsOpen: true
+        });
+    }
+
+    onScroll() {
            if (this.state.isLoading || this.state.blogItems.length === this.state.totalCount) {
             return;
            }
@@ -67,7 +91,19 @@ class Blog extends Component {
 
         return (
             <div className="blog-con">
+                <BlogModal 
+                handleSuccessfullNewBlogSubmission={this.handleSuccessfullNewBlogSubmission}
+                handleModalClose={this.handleModalClose}
+                modalIsOpen={this.state.blogModalIsOpen} />
+                    
+                <div className="new-blog-link">
+                    <a onClick={this.handleNewBlogClick}>
+                    <FontAwesomeIcon icon="fa-hippo" />   
+                    </a> 
+                </div>
+
                 <div className="con-container">{blogRecords}</div>
+                
                 {this.state.isLoading ? (
 
                     <div className="cont-loader">
