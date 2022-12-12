@@ -46,10 +46,10 @@ export default class PortfolioForm extends Component {
             .then(response => {
                 this.setState({
                     [`${imageType}_url`]: ""
-                })
+                });
             }).catch(error => {
                 console.log("deleteImage error", error);
-            })
+            });
         }
     
 
