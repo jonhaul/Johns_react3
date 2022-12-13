@@ -5,8 +5,8 @@ import {
   Route
 } from 'react-router-dom'
 import axios from 'axios';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import NavigationContainer from './navigation/navigation-Container';
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import NavigationContainer from './navigation/navigation-container';
 import Home from "./pages/home";
 import About from "./pages/about";
 import Contact from "./pages/contact";
