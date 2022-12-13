@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default class Login extends Component {
     constructor(props) {
@@ -60,24 +61,29 @@ export default class Login extends Component {
                 
                 <div>{this.state.errorText}</div>
 
-                <form onSubmit={this.handleSubmit}>
-                    <input 
-                        type="email"
-                        name="email"
-                        placeholder="Your Email"
-                        value={this.state.email}
-                        onChange={this.handleChange}
-                    />
+                <form onSubmit={this.handleSubmit} className="auth-form-wrap">
+                    <div className="form-group">
+                        <FontAwesomeIcon icon="envelope" />
+                        <input 
+                            type="email"
+                            name="email"
+                            placeholder="Your Email"
+                            value={this.state.email}
+                            onChange={this.handleChange}
+                        />
 
-                    <input 
-                    type="password" 
-                    name="password"
-                    placeholder="Your Password"
-                    value={this.state.password}
-                    onChange={this.handleChange}
-                    
-                    />
-                    <button type="submit">Login</button>
+
+                        <FontAwesomeIcon icon="lock" />
+                        <input 
+                        type="password" 
+                        name="password"
+                        placeholder="Your Password"
+                        value={this.state.password}
+                        onChange={this.handleChange}
+                        
+                        />
+                        <button className="btn" type="submit">Login</button>
+                    </div>.
                 </form>
             </div>
 
